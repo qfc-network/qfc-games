@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  office:
+    build: ../qfc-office
+    ports:
+      - "3210:3210"
+    restart: unless-stopped
+
+  cards:
+    build: ./qfc-cards
+    ports:
+      - "3220:3220"
+    restart: unless-stopped
+
+  pets:
+    build: ./qfc-pets
+    ports:
+      - "3230:3230"
+    volumes:
+      - pets-data:/root/.qfc-pets
+    restart: unless-stopped
+
+  dungeon:
+    build: ./qfc-dungeon
+    ports:
+      - "3240:3240"
+    restart: unless-stopped
+
+  lobby:
+    image: nginx:alpine
+    ports:
+      - "3200:80"
+    volumes:
+      - ./lobby:/usr/share/nginx/html:ro
+    restart: unless-stopped
+
+volumes:
+  pets-data:
