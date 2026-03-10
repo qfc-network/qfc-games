@@ -1,0 +1,76 @@
+# QFC Chain Games - Deployment on qfc-testnet-app VPS
+# Usage: docker compose -f docker-compose.games.yml up -d
+
+services:
+  office:
+    image: ghcr.io/qfc-network/qfc-office:latest
+    container_name: qfc-office
+    restart: unless-stopped
+    expose:
+      - "3210"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.office.rule=Host(`office.testnet.qfc.network`)"
+      - "traefik.http.routers.office.entrypoints=websecure"
+      - "traefik.http.routers.office.tls.certresolver=letsencrypt"
+      - "traefik.http.services.office.loadbalancer.server.port=3210"
+    networks:
+      - traefik-network
+
+  cards:
+    image: ghcr.io/qfc-network/qfc-cards:latest
+    container_name: qfc-cards
+    restart: unless-stopped
+    expose:
+      - "3220"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cards.rule=Host(`cards.testnet.qfc.network`)"
+      - "traefik.http.routers.cards.entrypoints=websecure"
+      - "traefik.http.routers.cards.tls.certresolver=letsencrypt"
+      - "traefik.http.services.cards.loadbalancer.server.port=3220"
+    networks:
+      - traefik-network
+
+  pets:
+    image: ghcr.io/qfc-network/qfc-pets:latest
+    container_name: qfc-pets
+    restart: unless-stopped
+    expose:
+      - "3230"
+    volumes:
+      - pets-data:/root/.qfc-pets
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pets.rule=Host(`pets.testnet.qfc.network`)"
+      - "traefik.http.routers.pets.entrypoints=websecure"
+      - "traefik.http.routers.pets.tls.certresolver=letsencrypt"
+      - "traefik.http.services.pets.loadbalancer.server.port=3230"
+    networks:
+      - traefik-network
+
+  dungeon:
+    image: ghcr.io/qfc-network/qfc-dungeon:latest
+    container_name: qfc-dungeon
+    restart: unless-stopped
+    expose:
+      - "3240"
+    volumes:
+      - dungeon-data:/root/.qfc-dungeon
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dungeon.rule=Host(`dungeon.testnet.qfc.network`)"
+      - "traefik.http.routers.dungeon.entrypoints=websecure"
+      - "traefik.http.routers.dungeon.tls.certresolver=letsencrypt"
+      - "traefik.http.services.dungeon.loadbalancer.server.port=3240"
+    networks:
+      - traefik-network
+
+networks:
+  traefik-network:
+    external: true
+    name: vps-a-app_app-network
+
+volumes:
+  pets-data:
+  dungeon-data:
