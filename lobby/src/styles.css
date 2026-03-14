@@ -639,19 +639,227 @@ small {
   max-width: 68ch;
 }
 
+/* Portal grid — 2x2 for four game cards */
+.games-grid.portal-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+}
+
+.card-tagline {
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95em;
+  margin: 4px 0 6px;
+  letter-spacing: -0.2px;
+}
+
+.portal-card .game-metrics {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.player-count-value {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Portal stats row under hero CTA */
+.portal-stats-row {
+  display: flex;
+  gap: 24px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.portal-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.portal-stat strong {
+  color: #fff;
+  font-size: 1.3em;
+  font-weight: 800;
+}
+
+.portal-stat span {
+  color: #8d8daa;
+  font-size: 0.82em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Metric label in leaderboard */
+.metric-label {
+  color: #a3a8bf;
+  font-size: 0.86em;
+}
+
+/* Game stats grid on profile */
+.game-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.game-stat-card {
+  background: rgba(17, 18, 35, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 20px;
+  padding: 20px;
+  border-left: 3px solid var(--accent);
+}
+
+.game-stat-header {
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 12px;
+  font-size: 1.05em;
+}
+
+.game-stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.game-stat-row div {
+  padding: 10px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.game-stat-row span {
+  color: #8d8daa;
+  font-size: 0.78em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.game-stat-row strong {
+  display: block;
+  margin-top: 4px;
+  color: #fff;
+  font-size: 1.05em;
+}
+
+.profile-summary-bar {
+  display: flex;
+  gap: 28px;
+  padding: 18px 24px;
+  margin-top: 28px;
+  background: rgba(17, 18, 35, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  color: #a3a8bf;
+  font-size: 0.92em;
+  flex-wrap: wrap;
+}
+
+.profile-summary-bar strong {
+  color: #fff;
+}
+
+/* News page styles */
+.news-feed {
+  display: grid;
+  gap: 16px;
+}
+
+.news-card {
+  background: rgba(17, 18, 35, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 20px;
+  padding: 24px;
+  transition: all 0.2s;
+}
+
+.news-card:hover {
+  border-color: rgba(255, 255, 255, 0.14);
+  transform: translateY(-2px);
+}
+
+.news-card-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.news-tag {
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid;
+  font-size: 0.74em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.news-game-badge {
+  font-weight: 700;
+  font-size: 0.85em;
+}
+
+.news-date {
+  color: #8d8daa;
+  font-size: 0.82em;
+  margin-left: auto;
+}
+
+.news-title {
+  color: #fff;
+  font-size: 1.2em;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+.news-summary {
+  color: #a3a8bf;
+  line-height: 1.65;
+  font-size: 0.94em;
+}
+
+.news-card-bottom {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.news-date-full {
+  color: #8d8daa;
+  font-size: 0.8em;
+}
+
+.news-empty {
+  text-align: center;
+  padding: 48px 24px;
+  color: #8d8daa;
+  font-size: 1.1em;
+}
+
 @media (max-width: 920px) {
   .hero-shell,
   .risk-banner,
   .two-column-layout,
   .games-grid.casino-grid,
+  .games-grid.portal-grid,
   .stats-grid,
-  .achievements-grid {
+  .achievements-grid,
+  .game-stats-grid {
     grid-template-columns: 1fr;
   }
 
   .wallet-stats-grid,
   .risk-grid,
   .game-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .game-stat-row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

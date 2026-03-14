@@ -11,6 +11,28 @@ export interface CasinoGame {
   href: string
 }
 
+export interface PortalGame {
+  slug: 'dungeon' | 'cards' | 'pets' | 'office'
+  emoji: string
+  name: string
+  tagline: string
+  desc: string
+  accent: string
+  status: 'live' | 'beta' | 'coming-soon'
+  playerCount: number
+  genre: string
+  href: string
+}
+
+export interface NewsItem {
+  id: string
+  title: string
+  summary: string
+  game: PortalGame['slug'] | 'platform'
+  date: string
+  tag: 'update' | 'event' | 'patch' | 'announcement'
+}
+
 export interface BetEntry {
   game: CasinoGame['slug']
   label: string
@@ -20,6 +42,108 @@ export interface BetEntry {
   proof: string
   time: string
 }
+
+export const portalGames: PortalGame[] = [
+  {
+    slug: 'dungeon',
+    emoji: '🏰',
+    name: 'QFC Dungeon',
+    tagline: 'Explore. Fight. Loot.',
+    desc: 'Roguelike dungeon crawler with on-chain loot drops, permadeath stakes, and procedurally generated floors.',
+    accent: '#ff7a59',
+    status: 'live',
+    playerCount: 1_247,
+    genre: 'Roguelike RPG',
+    href: '/qfc-dungeon/',
+  },
+  {
+    slug: 'cards',
+    emoji: '🃏',
+    name: 'QFC Cards',
+    tagline: 'Collect. Build. Duel.',
+    desc: 'Competitive card battler with NFT-backed decks, ranked ladders, and seasonal tournament circuits.',
+    accent: '#6c5ce7',
+    status: 'live',
+    playerCount: 892,
+    genre: 'Card Battler',
+    href: '/qfc-cards/',
+  },
+  {
+    slug: 'pets',
+    emoji: '🐾',
+    name: 'QFC Pets',
+    tagline: 'Hatch. Train. Evolve.',
+    desc: 'Virtual pet sim where creatures earn tokens through training, breeding chains, and arena competitions.',
+    accent: '#2ed573',
+    status: 'beta',
+    playerCount: 634,
+    genre: 'Pet Sim',
+    href: '/qfc-pets/',
+  },
+  {
+    slug: 'office',
+    emoji: '🏢',
+    name: 'QFC Office',
+    tagline: 'Manage. Expand. Profit.',
+    desc: 'Business tycoon sim with DAO governance mechanics, staff NFTs, and cross-game economy integration.',
+    accent: '#feca57',
+    status: 'coming-soon',
+    playerCount: 0,
+    genre: 'Tycoon Sim',
+    href: '/qfc-office/',
+  },
+]
+
+export const newsItems: NewsItem[] = [
+  {
+    id: 'n1',
+    title: 'Dungeon Floor 50 expansion is live',
+    summary: 'Five new procedural floor templates, two boss encounters, and rare loot tables added to the deep dungeon. Permadeath stakes now scale with floor depth.',
+    game: 'dungeon',
+    date: '2026-03-14',
+    tag: 'update',
+  },
+  {
+    id: 'n2',
+    title: 'Cards Season 3 tournament registration opens',
+    summary: 'Ranked ladder resets March 20. Top 128 players qualify for the Season 3 championship bracket with a 50,000 QFC prize pool.',
+    game: 'cards',
+    date: '2026-03-13',
+    tag: 'event',
+  },
+  {
+    id: 'n3',
+    title: 'Pets breeding v2 patch notes',
+    summary: 'Trait inheritance reworked for fairer outcomes. New elemental affinities added. Arena matchmaking now considers creature level brackets.',
+    game: 'pets',
+    date: '2026-03-12',
+    tag: 'patch',
+  },
+  {
+    id: 'n4',
+    title: 'Office early access announced',
+    summary: 'QFC Office enters closed beta in April. Whitelist applications open now. DAO governance module preview available on testnet.',
+    game: 'office',
+    date: '2026-03-11',
+    tag: 'announcement',
+  },
+  {
+    id: 'n5',
+    title: 'Cross-game wallet session v2 deployed',
+    summary: 'Single sign-on now persists across all four games. Token balances sync in real-time. Gas sponsorship active on testnet.',
+    game: 'platform',
+    date: '2026-03-10',
+    tag: 'update',
+  },
+  {
+    id: 'n6',
+    title: 'Dungeon x Cards crossover event',
+    summary: 'Defeat the Card Golem boss in Dungeon floors 30-40 to earn exclusive dual-game NFT rewards usable in both titles.',
+    game: 'dungeon',
+    date: '2026-03-09',
+    tag: 'event',
+  },
+]
 
 export const casinoGames: CasinoGame[] = [
   {
@@ -110,4 +234,11 @@ export const walletSummary = {
   balance: '12,480 QFC',
   available: '11,920 QFC',
   pending: '560 QFC',
+}
+
+export const gameStats = {
+  dungeon: { played: 47, wins: 31, hours: 62, topFloor: 38 },
+  cards: { played: 124, wins: 71, hours: 89, rank: 'Gold II' },
+  pets: { played: 23, wins: 15, hours: 34, creatures: 8 },
+  office: { played: 0, wins: 0, hours: 0, rank: 'N/A' },
 }
