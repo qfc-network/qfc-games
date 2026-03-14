@@ -2,8 +2,23 @@ import './styles.css'
 import { renderHome } from './pages/home'
 import { renderLeaderboard } from './pages/leaderboard'
 import { renderProfile } from './pages/profile'
+import { clearWalletSession, createWalletSession, getWalletSession } from './session'
 
 const app = document.getElementById('app')!
+
+function renderWalletButton() {
+  const btn = document.getElementById('wallet-btn') as HTMLButtonElement | null
+  if (!btn) return
+
+  const session = getWalletSession()
+  if (session) {
+    btn.textContent = session.address
+    btn.classList.add('connected')
+  } else {
+    btn.textContent = 'Connect Wallet'
+    btn.classList.remove('connected')
+  }
+}
 
 function navigate() {
   const hash = window.location.hash.slice(1) || '/'
@@ -12,7 +27,7 @@ function navigate() {
   const header = document.createElement('header')
   header.className = 'site-header'
   header.innerHTML = `
-    <a href="#/" class="logo">🎮 QFC Games</a>
+    <a href="#/" class="logo">🎰 QFC Casino</a>
     <nav>
       <a href="#/" class="${hash === '/' ? 'active' : ''}">Lobby</a>
       <a href="#/leaderboard" class="${hash === '/leaderboard' ? 'active' : ''}">Leaderboard</a>
@@ -36,29 +51,24 @@ function navigate() {
       renderHome(main)
   }
 
-  document.getElementById('wallet-btn')!.addEventListener('click', () => {
-    const btn = document.getElementById('wallet-btn')!
-    if (btn.classList.contains('connected')) {
-      btn.textContent = 'Connect Wallet'
-      btn.classList.remove('connected')
-      localStorage.removeItem('qfc_wallet')
+  renderWalletButton()
+
+  document.getElementById('wallet-btn')?.addEventListener('click', () => {
+    if (getWalletSession()) {
+      clearWalletSession()
     } else {
-      const addr = '0x' + Array.from({ length: 8 }, () => Math.floor(Math.random() * 16).toString(16)).join('') + '...'
-      btn.textContent = addr
-      btn.classList.add('connected')
-      localStorage.setItem('qfc_wallet', addr)
+      createWalletSession()
     }
-    if (hash === '/profile') {
+
+    renderWalletButton()
+
+    if (window.location.hash === '#/profile') {
       renderProfile(main)
     }
+    if (window.location.hash === '#/' || window.location.hash === '') {
+      renderHome(main)
+    }
   })
-
-  const saved = localStorage.getItem('qfc_wallet')
-  if (saved) {
-    const btn = document.getElementById('wallet-btn')!
-    btn.textContent = saved
-    btn.classList.add('connected')
-  }
 }
 
 window.addEventListener('hashchange', navigate)
