@@ -8,6 +8,7 @@ This repository is now a **meta/integration repo** only.
 - deployment templates (compose)
 - casino roadmap (`CASINO-MVP-ROADMAP.md`)
 - casino rollout / rollback runbook (`deploy/CASINO-MVP-RUNBOOK.md`)
+- deployment alignment checklist for game repos (`deploy/DEPLOYMENT-ALIGNMENT.md`)
 
 ## What no longer lives here
 Game source repos are no longer nested under this directory.
