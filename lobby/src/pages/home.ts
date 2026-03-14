@@ -1,78 +1,153 @@
-interface Game {
-  emoji: string
-  name: string
-  genre: string
-  desc: string
-  port: number
-  color: string
-  btnText: string
+import { casinoGames, recentBets, riskLimits, walletSummary } from '../data'
+import { getWalletSession, formatConnectedAt } from '../session'
+
+function statusLabel(status: string): string {
+  switch (status) {
+    case 'live':
+      return 'Live'
+    case 'staging':
+      return 'Staging'
+    default:
+      return 'Coming Soon'
+  }
 }
 
-const games: Game[] = [
-  {
-    emoji: '🏢',
-    name: 'Virtual Office',
-    genre: 'Work-to-Earn',
-    desc: 'The world\'s first on-chain AI Agent virtual office. 12 team members work, chat, and collaborate in real-time.',
-    port: 3210,
-    color: '#2ed573',
-    btnText: 'Enter Office',
-  },
-  {
-    emoji: '🎲',
-    name: 'AI Dungeon',
-    genre: 'Roguelike',
-    desc: 'Roguelike dungeon crawler with procedural levels, monsters, and loot. Every run is unique. Permadeath.',
-    port: 3240,
-    color: '#54a0ff',
-    btnText: 'Enter Dungeon',
-  },
-  {
-    emoji: '🃏',
-    name: 'AI Cards',
-    genre: 'Strategy Card Game',
-    desc: 'Strategy card game with 30 AI-generated cards across 5 elements. Build your deck and battle PvP or vs AI.',
-    port: 3220,
-    color: '#a29bfe',
-    btnText: 'Play Cards',
-  },
-  {
-    emoji: '🐾',
-    name: 'AI Pets',
-    genre: 'Virtual Pets',
-    desc: 'Adopt, raise, and battle AI-powered virtual pets. Each pet has unique personality, stats, and can chat with you!',
-    port: 3230,
-    color: '#ffa502',
-    btnText: 'Adopt Pet',
-  },
-]
-
-function randomPlayers(): number {
-  return Math.floor(Math.random() * 20) + 1
+function resultClass(result: string): string {
+  switch (result) {
+    case 'win':
+      return 'is-win'
+    case 'loss':
+      return 'is-loss'
+    default:
+      return 'is-pending'
+  }
 }
 
 export function renderHome(container: HTMLElement) {
-  const counts = games.map(() => randomPlayers())
-  const total = counts.reduce((a, b) => a + b, 0)
+  const session = getWalletSession()
 
   container.innerHTML = `
-    <div class="banner">
-      <span class="pulse"></span>
-      <strong>${total}</strong> players online across ${games.length} games
-    </div>
-    <div class="games-grid">
-      ${games.map((g, i) => `
-        <div class="game-card" style="--accent: ${g.color}" onclick="window.open('http://localhost:${g.port}', '_blank')">
-          <div class="card-header">
-            <span class="card-emoji">${g.emoji}</span>
-            <span class="player-count"><span class="dot"></span>${counts[i]} online</span>
-          </div>
-          <h2>${g.name}</h2>
-          <span class="genre-tag" style="border-color: ${g.color}; color: ${g.color}">${g.genre}</span>
-          <p class="card-desc">${g.desc}</p>
-          <a class="play-btn" href="http://localhost:${g.port}" target="_blank" onclick="event.stopPropagation()">${g.btnText}</a>
+    <section class="hero-shell page-content">
+      <div class="hero-copy">
+        <span class="eyebrow">QFC Casino MVP</span>
+        <h1 class="hero-title">Crash, Dice, Roulette — one wallet session, one lobby.</h1>
+        <p class="hero-subtitle">
+          Unified entry for the casino MVP with shared wallet state, live table status, recent bet history,
+          and built-in risk controls for testnet rollout.
+        </p>
+        <div class="hero-actions">
+          <a class="primary-cta" href="#games">View tables</a>
+          <a class="secondary-cta" href="#/profile">Wallet & profile</a>
         </div>
-      `).join('')}
-    </div>
+      </div>
+      <aside class="session-card">
+        <div class="session-card-header">
+          <span>Wallet session</span>
+          <span class="network-pill">QFC Testnet</span>
+        </div>
+        ${session ? `
+          <div class="wallet-address">${session.address}</div>
+          <div class="session-meta">Connected ${formatConnectedAt(session.connectedAt)}</div>
+          <div class="wallet-stats-grid">
+            <div><strong>${walletSummary.balance}</strong><span>Total balance</span></div>
+            <div><strong>${walletSummary.available}</strong><span>Available</span></div>
+            <div><strong>${walletSummary.pending}</strong><span>Pending settle</span></div>
+          </div>
+        ` : `
+          <div class="empty-session-state">
+            <strong>No wallet connected</strong>
+            <p>Connect once and keep the same session while moving between Crash, Dice, and Roulette.</p>
+          </div>
+        `}
+      </aside>
+    </section>
+
+    <section class="risk-banner page-content">
+      <div>
+        <span class="eyebrow">Risk banner</span>
+        <h2>Testnet guardrails are active</h2>
+        <p>Limits are shared across all casino games to reduce abuse and simplify operator controls.</p>
+      </div>
+      <div class="risk-grid">
+        <div class="risk-pill"><span>Per bet</span><strong>${riskLimits.perBet}</strong></div>
+        <div class="risk-pill"><span>Daily loss cap</span><strong>${riskLimits.dailyLoss}</strong></div>
+        <div class="risk-pill"><span>Idle lock</span><strong>${riskLimits.sessionTimeout}</strong></div>
+        <div class="risk-pill"><span>Throttle</span><strong>${riskLimits.throttle}</strong></div>
+      </div>
+    </section>
+
+    <section id="games" class="page-content section-stack">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Casino lobby</span>
+          <h2>Game status cards</h2>
+        </div>
+        <p class="section-copy">Unified navigation shell for the initial 3-game MVP.</p>
+      </div>
+      <div class="games-grid casino-grid">
+        ${casinoGames.map((game) => `
+          <article class="game-card casino-card" style="--accent: ${game.accent}">
+            <div class="card-header">
+              <span class="card-emoji">${game.emoji}</span>
+              <span class="status-chip status-${game.status}">${statusLabel(game.status)}</span>
+            </div>
+            <h3>${game.name}</h3>
+            <p class="card-desc">${game.desc}</p>
+            <div class="game-metrics">
+              <div><span>Min</span><strong>${game.minBet}</strong></div>
+              <div><span>Max</span><strong>${game.maxBet}</strong></div>
+              <div><span>RTP</span><strong>${game.rtp}</strong></div>
+            </div>
+            <div class="card-actions">
+              <a class="play-btn" href="${game.href}">Open ${game.name}</a>
+              <span class="proof-hint">Provable fairness enabled</span>
+            </div>
+          </article>
+        `).join('')}
+      </div>
+    </section>
+
+    <section class="page-content section-stack two-column-layout">
+      <div>
+        <div class="section-head compact">
+          <div>
+            <span class="eyebrow">Recent activity</span>
+            <h2>Recent bets / history</h2>
+          </div>
+        </div>
+        <div class="history-list">
+          ${recentBets.map((bet) => `
+            <div class="history-row">
+              <div>
+                <div class="history-game">${bet.game.toUpperCase()}</div>
+                <div class="history-label">${bet.label}</div>
+              </div>
+              <div class="history-meta">
+                <span>${bet.amount}</span>
+                <strong class="${resultClass(bet.result)}">${bet.payout}</strong>
+                <small>${bet.proof} · ${bet.time}</small>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <div>
+        <div class="section-head compact">
+          <div>
+            <span class="eyebrow">Navigation flow</span>
+            <h2>Unified session rules</h2>
+          </div>
+        </div>
+        <div class="info-panel">
+          <ul>
+            <li>Single wallet session persists while switching between games.</li>
+            <li>Risk controls and limits are shared across Crash, Dice, and Roulette.</li>
+            <li>Recent bet history is visible from the lobby before entering a game.</li>
+            <li>Fairness proof IDs are attached to each round for verification tooling.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
   `
 }
