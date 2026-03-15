@@ -3,7 +3,7 @@ import { renderHome } from './pages/home'
 import { renderLeaderboard } from './pages/leaderboard'
 import { renderProfile } from './pages/profile'
 import { renderNews } from './pages/news'
-import { clearWalletSession, createWalletSession, getWalletSession } from './session'
+import { clearWalletSession, connectWallet, getWalletSession, shortenAddress } from './session'
 
 const app = document.getElementById('app')!
 
@@ -13,7 +13,7 @@ function renderWalletButton() {
 
   const session = getWalletSession()
   if (session) {
-    btn.textContent = session.address
+    btn.textContent = shortenAddress(session.address)
     btn.classList.add('connected')
   } else {
     btn.textContent = 'Connect Wallet'
@@ -58,11 +58,11 @@ function navigate() {
 
   renderWalletButton()
 
-  document.getElementById('wallet-btn')?.addEventListener('click', () => {
+  document.getElementById('wallet-btn')?.addEventListener('click', async () => {
     if (getWalletSession()) {
       clearWalletSession()
     } else {
-      createWalletSession()
+      await connectWallet()
     }
 
     renderWalletButton()
