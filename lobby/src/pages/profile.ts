@@ -1,5 +1,5 @@
-import { recentBets, riskLimits, walletSummary, portalGames, gameStats } from '../data'
-import { formatConnectedAt, getWalletSession } from '../session'
+import { recentBets, riskLimits, portalGames, gameStats } from '../data'
+import { formatConnectedAt, getWalletSession, getBalance } from '../session'
 
 const achievements = [
   { icon: '🏰', name: 'Dungeon Delver', desc: 'Reach floor 25 in QFC Dungeon', unlocked: true },
@@ -45,8 +45,8 @@ export function renderProfile(container: HTMLElement) {
       </div>
 
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-value">${walletSummary.balance}</div><div class="stat-label">Wallet balance</div></div>
-        <div class="stat-card"><div class="stat-value">${walletSummary.available}</div><div class="stat-label">Available</div></div>
+        <div class="stat-card"><div class="stat-value" id="profile-balance">Loading...</div><div class="stat-label">Wallet balance</div></div>
+        <div class="stat-card"><div class="stat-value" id="profile-available">-</div><div class="stat-label">Available</div></div>
         <div class="stat-card"><div class="stat-value">${totalHours}h</div><div class="stat-label">Total play time</div></div>
         <div class="stat-card"><div class="stat-value">${totalPlayed}</div><div class="stat-label">Games played</div></div>
       </div>
@@ -123,9 +123,17 @@ export function renderProfile(container: HTMLElement) {
 
       <div class="profile-summary-bar">
         <span>Win rate: <strong>${totalPlayed > 0 ? Math.round((totalWins / totalPlayed) * 100) : 0}%</strong></span>
-        <span>Pending: <strong>${walletSummary.pending}</strong></span>
+        <span>Pending: <strong>0 QFC</strong></span>
         <span>Games unlocked: <strong>${portalGames.filter(g => g.status !== 'coming-soon').length}/${portalGames.length}</strong></span>
       </div>
     </div>
   `
+
+  // Fetch real balance
+  getBalance(session.address).then((bal) => {
+    const balEl = document.getElementById('profile-balance')
+    const availEl = document.getElementById('profile-available')
+    if (balEl) balEl.textContent = `${bal} QFC`
+    if (availEl) availEl.textContent = `${bal} QFC`
+  })
 }

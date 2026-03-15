@@ -76,6 +76,29 @@ export function shortenAddress(addr: string): string {
   return `${addr.slice(0, 6)}...${addr.slice(-4)}`
 }
 
+const RPC_URL = 'https://rpc.testnet.qfc.network'
+
+export async function getBalance(address: string): Promise<string> {
+  try {
+    const resp = await fetch(RPC_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        method: 'eth_getBalance',
+        params: [address, 'latest'],
+        id: 1,
+      }),
+    })
+    const data = await resp.json()
+    const wei = BigInt(data.result || '0x0')
+    const eth = Number(wei) / 1e18
+    return eth.toLocaleString(undefined, { maximumFractionDigits: 4 })
+  } catch {
+    return '0'
+  }
+}
+
 export function formatConnectedAt(iso: string): string {
   return new Date(iso).toLocaleString('en-US', {
     month: 'short',

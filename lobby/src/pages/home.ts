@@ -1,5 +1,5 @@
-import { portalGames, casinoGames, recentBets, riskLimits, walletSummary } from '../data'
-import { getWalletSession, formatConnectedAt } from '../session'
+import { portalGames, casinoGames, recentBets, riskLimits } from '../data'
+import { getWalletSession, formatConnectedAt, getBalance } from '../session'
 
 function statusLabel(status: string): string {
   switch (status) {
@@ -87,9 +87,9 @@ export function renderHome(container: HTMLElement) {
           <div class="wallet-address">${session.address}</div>
           <div class="session-meta">Connected ${formatConnectedAt(session.connectedAt)}</div>
           <div class="wallet-stats-grid">
-            <div><strong>${walletSummary.balance}</strong><span>Total balance</span></div>
-            <div><strong>${walletSummary.available}</strong><span>Available</span></div>
-            <div><strong>${walletSummary.pending}</strong><span>Pending settle</span></div>
+            <div><strong id="wallet-balance">Loading...</strong><span>Total balance</span></div>
+            <div><strong>-</strong><span>Available</span></div>
+            <div><strong>0 QFC</strong><span>Pending settle</span></div>
           </div>
         ` : `
           <div class="empty-session-state">
@@ -231,4 +231,12 @@ export function renderHome(container: HTMLElement) {
     }
   })
   observer.observe(document.getElementById('app')!, { childList: true })
+
+  // Fetch real balance from chain
+  if (session) {
+    getBalance(session.address).then((bal) => {
+      const el = document.getElementById('wallet-balance')
+      if (el) el.textContent = `${bal} QFC`
+    })
+  }
 }
