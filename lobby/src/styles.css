@@ -901,3 +901,462 @@ small {
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================
+   Casino Games — Shared Styles
+   ============================================ */
+
+.dice-page, .crash-page, .roulette-page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 1.5rem 0;
+}
+
+.dice-header, .crash-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.dice-header h1, .crash-header h1 {
+  font-size: 1.75rem;
+  font-weight: 800;
+}
+
+.dice-balance {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.balance-label { font-size: 0.7rem; color: #888; text-transform: uppercase; }
+.balance-value { font-size: 1.2rem; font-weight: 700; color: #2ed573; }
+
+.dice-game, .crash-game, .roulette-game {
+  background: #1a1a2e;
+  border: 1px solid #2a2a4a;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Dice result */
+.dice-result {
+  text-align: center;
+  padding: 2rem 0;
+  transition: all 0.3s;
+}
+
+.result-number {
+  font-size: 4rem;
+  font-weight: 900;
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.result-label { font-size: 0.9rem; color: #888; margin-top: 0.5rem; }
+.dice-result.result-win .result-number { color: #2ed573; }
+.dice-result.result-win .result-label { color: #2ed573; }
+.dice-result.result-loss .result-number { color: #ff4757; }
+.dice-result.result-loss .result-label { color: #ff4757; }
+
+/* Slider */
+.dice-slider-container { margin: 1rem 0; }
+
+.slider-bar {
+  position: relative;
+  height: 8px;
+  background: #333;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.slider-fill {
+  position: absolute;
+  height: 100%;
+  border-radius: 4px;
+}
+
+.slider-fill.fill-right {
+  right: 0;
+  width: calc(100% - var(--target));
+  background: #2ed573;
+}
+
+.slider-fill.fill-left {
+  left: 0;
+  width: var(--target);
+  background: #2ed573;
+}
+
+.dice-slider {
+  width: 100%;
+  appearance: none;
+  height: 8px;
+  background: transparent;
+  position: relative;
+  top: -8px;
+  cursor: pointer;
+}
+
+.dice-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid #6c5ce7;
+  cursor: grab;
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: #666;
+  margin-top: -4px;
+}
+
+.target-label { color: #6c5ce7; font-weight: 700; }
+
+/* Direction buttons */
+.dice-direction {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.dir-btn {
+  padding: 0.75rem;
+  background: #222;
+  border: 2px solid #333;
+  border-radius: 0.5rem;
+  color: #888;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dir-btn.active {
+  border-color: #6c5ce7;
+  background: rgba(108, 92, 231, 0.15);
+  color: #fff;
+}
+
+/* Bet controls */
+.dice-controls { margin: 1rem 0; }
+
+.control-group { margin-bottom: 0.75rem; }
+.control-group label { font-size: 0.75rem; color: #888; margin-bottom: 0.25rem; display: block; }
+
+.bet-input-row {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.bet-input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  background: #222;
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.bet-adj {
+  padding: 0.5rem 0.75rem;
+  background: #333;
+  border: 1px solid #444;
+  border-radius: 0.5rem;
+  color: #aaa;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+
+.bet-adj:hover { background: #444; color: #fff; }
+
+/* Stats row */
+.dice-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.stat {
+  text-align: center;
+  padding: 0.5rem;
+  background: #222;
+  border-radius: 0.5rem;
+}
+
+.stat-label { font-size: 0.65rem; color: #666; text-transform: uppercase; }
+.stat-value { font-size: 1rem; font-weight: 700; color: #fff; display: block; }
+.win-value { color: #2ed573; }
+
+/* Roll / Spin button */
+.roll-btn {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #6c5ce7, #a855f7);
+  border: none;
+  border-radius: 0.75rem;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.roll-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(108, 92, 231, 0.4); }
+.roll-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.roll-btn.rolling { animation: pulse 0.5s infinite; }
+.roll-btn.cashout-btn { background: linear-gradient(135deg, #2ed573, #1abc9c); }
+
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+
+.fair-info {
+  text-align: center;
+  font-size: 0.7rem;
+  color: #555;
+  margin-top: 1rem;
+}
+
+.fair-info span { color: #2ed573; }
+
+/* History */
+.dice-history, .crash-history {
+  background: #1a1a2e;
+  border: 1px solid #2a2a4a;
+  border-radius: 1rem;
+  padding: 1.25rem;
+}
+
+.dice-history h3, .crash-history h3 {
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 0.75rem;
+}
+
+.history-list { display: flex; flex-direction: column; gap: 0.25rem; }
+.history-empty { color: #555; font-size: 0.8rem; text-align: center; padding: 1rem; }
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.25rem;
+  font-size: 0.8rem;
+  font-family: monospace;
+}
+
+.history-item.won { background: rgba(46, 213, 115, 0.1); }
+.history-item.lost { background: rgba(255, 71, 87, 0.05); }
+.history-roll { font-weight: 700; color: #fff; min-width: 30px; }
+.history-bet { color: #888; }
+.history-item.won .history-result { color: #2ed573; }
+.history-item.lost .history-result { color: #ff4757; }
+
+/* Crash-specific */
+.crash-chart {
+  position: relative;
+  background: #111;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.crash-chart canvas { display: block; width: 100%; }
+
+.crash-multiplier {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  font-weight: 900;
+  color: #2ed573;
+  font-family: monospace;
+  text-shadow: 0 2px 20px rgba(46, 213, 115, 0.3);
+}
+
+.crash-multiplier.crashed { color: #ff4757; text-shadow: 0 2px 20px rgba(255, 71, 87, 0.3); }
+.crash-multiplier.cashed { color: #ffd700; text-shadow: 0 2px 20px rgba(255, 215, 0, 0.3); }
+
+.crash-profit {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-top: 0.5rem;
+}
+
+.crash-profit.win { color: #2ed573; }
+.crash-profit.loss { color: #ff4757; }
+
+.crash-dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  flex-direction: row !important;
+}
+
+.crash-dot {
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  font-family: monospace;
+}
+
+.crash-dot.low { background: rgba(255, 71, 87, 0.2); color: #ff4757; }
+.crash-dot.mid { background: rgba(108, 92, 231, 0.2); color: #a29bfe; }
+.crash-dot.high { background: rgba(46, 213, 115, 0.2); color: #2ed573; }
+
+.crash-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+/* Roulette-specific */
+.roulette-wheel {
+  text-align: center;
+  padding: 2rem 0 1rem;
+}
+
+.wheel-result {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  font-size: 2.5rem;
+  font-weight: 900;
+  border: 4px solid #444;
+}
+
+.wheel-result.idle { background: #222; color: #888; font-size: 2rem; }
+.wheel-result.red { background: #c0392b; color: #fff; border-color: #e74c3c; }
+.wheel-result.black { background: #1a1a2e; color: #fff; border-color: #555; }
+.wheel-result.green { background: #27ae60; color: #fff; border-color: #2ecc71; }
+
+.roulette-wheel.spinning .wheel-result { animation: pulse 0.2s infinite; }
+
+.number-grid {
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  gap: 2px;
+  margin-bottom: 0.5rem;
+}
+
+.num-btn {
+  padding: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border: 1px solid #333;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  color: #fff;
+  transition: all 0.15s;
+}
+
+.num-btn.red { background: #c0392b; }
+.num-btn.black { background: #222; }
+.num-btn.green { background: #27ae60; grid-row: span 3; }
+.num-btn:hover { transform: scale(1.1); z-index: 1; }
+
+.outside-bets {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.out-btn {
+  padding: 0.5rem;
+  background: #222;
+  border: 1px solid #333;
+  border-radius: 0.25rem;
+  color: #aaa;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.out-btn:hover { background: #333; color: #fff; border-color: #6c5ce7; }
+
+.chip-selector { margin-bottom: 0.75rem; }
+.chip-selector label { font-size: 0.7rem; color: #888; margin-bottom: 0.25rem; display: block; }
+
+.chip-row { display: flex; gap: 0.25rem; }
+
+.chip {
+  padding: 0.4rem 0.75rem;
+  background: #333;
+  border: 2px solid #444;
+  border-radius: 50%;
+  color: #aaa;
+  font-weight: 700;
+  font-size: 0.75rem;
+  cursor: pointer;
+  min-width: 40px;
+  transition: all 0.15s;
+}
+
+.chip.active { background: #6c5ce7; border-color: #a855f7; color: #fff; }
+.chip:hover { border-color: #6c5ce7; }
+
+.bet-summary {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #888;
+  padding: 0.5rem 0;
+}
+
+.roulette-actions {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 0.5rem;
+}
+
+.clear-btn {
+  padding: 0.75rem;
+  background: #333;
+  border: 1px solid #444;
+  border-radius: 0.5rem;
+  color: #aaa;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.clear-btn:hover:not(:disabled) { background: #444; color: #fff; }
+.clear-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.roulette-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.roulette-dot.red { background: #c0392b; }
+.roulette-dot.black { background: #333; }
+.roulette-dot.green { background: #27ae60; }

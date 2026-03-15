@@ -3,6 +3,9 @@ import { renderHome } from './pages/home'
 import { renderLeaderboard } from './pages/leaderboard'
 import { renderProfile } from './pages/profile'
 import { renderNews } from './pages/news'
+import { renderDice } from './pages/dice'
+import { renderCrash } from './pages/crash'
+import { renderRoulette } from './pages/roulette'
 import { clearWalletSession, connectWallet, getWalletSession, shortenAddress } from './session'
 
 const app = document.getElementById('app')!
@@ -25,12 +28,17 @@ function navigate() {
   const hash = window.location.hash.slice(1) || '/'
   app.innerHTML = ''
 
+  const isGame = hash.startsWith('/games/')
+
   const header = document.createElement('header')
   header.className = 'site-header'
   header.innerHTML = `
     <a href="#/" class="logo">🎮 QFC Games</a>
     <nav>
       <a href="#/" class="${hash === '/' ? 'active' : ''}">Lobby</a>
+      <a href="#/games/dice" class="${hash === '/games/dice' ? 'active' : ''}">🎲 Dice</a>
+      <a href="#/games/crash" class="${hash === '/games/crash' ? 'active' : ''}">📈 Crash</a>
+      <a href="#/games/roulette" class="${hash === '/games/roulette' ? 'active' : ''}">🎡 Roulette</a>
       <a href="#/leaderboard" class="${hash === '/leaderboard' ? 'active' : ''}">Leaderboard</a>
       <a href="#/news" class="${hash === '/news' ? 'active' : ''}">News</a>
       <a href="#/profile" class="${hash === '/profile' ? 'active' : ''}">Profile</a>
@@ -43,6 +51,15 @@ function navigate() {
   app.appendChild(main)
 
   switch (hash) {
+    case '/games/dice':
+      renderDice(main)
+      break
+    case '/games/crash':
+      renderCrash(main)
+      break
+    case '/games/roulette':
+      renderRoulette(main)
+      break
     case '/leaderboard':
       renderLeaderboard(main)
       break

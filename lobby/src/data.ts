@@ -167,7 +167,7 @@ export const casinoGames: CasinoGame[] = [
     status: 'live',
     minBet: '0.5 QFC',
     maxBet: '300 QFC',
-    rtp: '98.7%',
+    rtp: '99.0%',
     href: '#/games/dice',
   },
   {
@@ -176,7 +176,7 @@ export const casinoGames: CasinoGame[] = [
     name: 'Roulette',
     desc: 'Color, parity, high-low, and straight bets with auditable spin seeds for every round.',
     accent: '#2ed573',
-    status: 'staging',
+    status: 'live',
     minBet: '1 QFC',
     maxBet: '200 QFC',
     rtp: '97.3%',
