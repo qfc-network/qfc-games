@@ -1,0 +1,40 @@
+name: Casino Core Tests
+
+on:
+  push:
+    branches: [main, staging]
+    paths:
+      - 'casino-core/**'
+  pull_request:
+    branches: [main, staging]
+    paths:
+      - 'casino-core/**'
+
+defaults:
+  run:
+    working-directory: casino-core
+
+jobs:
+  test:
+    name: Compile & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: casino-core/package-lock.json
+
+      - run: npm ci
+
+      - name: Compile contracts
+        run: npx hardhat compile
+
+      - name: Run all tests
+        run: npx hardhat test
+
+      - name: Gas report
+        run: REPORT_GAS=true npx hardhat test
+        continue-on-error: true
