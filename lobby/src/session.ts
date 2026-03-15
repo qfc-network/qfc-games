@@ -91,9 +91,13 @@ export async function getBalance(address: string): Promise<string> {
       }),
     })
     const data = await resp.json()
-    const wei = BigInt(data.result || '0x0')
-    const eth = Number(wei) / 1e18
-    return eth.toLocaleString(undefined, { maximumFractionDigits: 4 })
+    const hex = data.result || '0x0'
+    // Convert wei to QFC (18 decimals) without BigInt precision loss
+    const wei = BigInt(hex)
+    const whole = wei / BigInt(1e18)
+    const remainder = wei % BigInt(1e18)
+    const decimals = remainder.toString().padStart(18, '0').slice(0, 4)
+    return `${whole.toLocaleString()}.${decimals}`
   } catch {
     return '0'
   }
