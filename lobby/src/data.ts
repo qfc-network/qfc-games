@@ -54,7 +54,7 @@ export const portalGames: PortalGame[] = [
     status: 'live',
     playerCount: 1_247,
     genre: 'Roguelike RPG',
-    href: '/qfc-dungeon/',
+    href: 'https://dungeon.testnet.qfc.network',
   },
   {
     slug: 'cards',
@@ -66,7 +66,7 @@ export const portalGames: PortalGame[] = [
     status: 'live',
     playerCount: 892,
     genre: 'Card Battler',
-    href: '/qfc-cards/',
+    href: 'https://cards.testnet.qfc.network',
   },
   {
     slug: 'pets',
@@ -78,7 +78,7 @@ export const portalGames: PortalGame[] = [
     status: 'beta',
     playerCount: 634,
     genre: 'Pet Sim',
-    href: '/qfc-pets/',
+    href: 'https://pets.testnet.qfc.network',
   },
   {
     slug: 'office',
@@ -90,7 +90,7 @@ export const portalGames: PortalGame[] = [
     status: 'coming-soon',
     playerCount: 0,
     genre: 'Tycoon Sim',
-    href: '/qfc-office/',
+    href: 'https://office.testnet.qfc.network',
   },
 ]
 
